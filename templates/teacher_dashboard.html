@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for this page */
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #B15EFF;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .course-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .course-title {
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            /* Make the title clickable */
+        }
+
+        .course-description {
+            margin-top: 10px;
+        }
+
+        .course-price {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .edit-button,
+        .save-button,
+        .delete-button,
+        .view-students-button,
+        .add-course-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        .add-course-button {
+            margin-bottom: 50px;
+        }
+
+        .edit-button:hover,
+        .save-button:hover,
+        .delete-button:hover,
+        .view-students-button:hover .add-course-button:hover {
+            background-color: #0056b3;
+        }
+
+        .edit-input {
+            display: none;
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .edit-input:focus {
+            outline: none;
+            border: 1px solid #007BFF;
+        }
+
+        .student-list {
+            display: none;
+        }
+
+        .student-list-title {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .student-name {
+            margin-top: 5px;
+        }
+
+        /* Style for the navigation bar */
+        .navbar {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        /* Style for the footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Online Learning Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('home') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Display course card for Web Development -->
+        <div class="course-card" data-course-id="webdev">
+            <div class="course-title" onclick="toggleStudentList('webdev')">Web Development</div>
+            <div class="course-description">
+                <span id="description-webdev">Learn the art of creating dynamic websites and web applications using HTML, CSS, and JavaScript.</span>
+                <input type="text" class="edit-input" id="edit-description-webdev">
+            </div>
+            <div class="course-price">
+                <span id="price-webdev">$59.99</span>
+                <input type="text" class="edit-input" id="edit-price-webdev">
+            </div>
+            <button class="edit-button bg-success" onclick="editCourse('webdev')">Edit</button>
+            <button class="save-button bg-success" onclick="saveCourse('webdev')">Save</button>
+            <button class="delete-button bg-success" onclick="deleteCourse('webdev')">Delete</button>
+            <button class="view-students-button bg-success " onclick="viewStudents('webdev')">View Students</button>
+
+            <div class="student-list" id="student-list-webdev">
+                <div class="student-list-title">Students:</div>
+                <!-- Add random student names here -->
+                <div class="student-name">John Doe</div>
+                <div class="student-name">Alice Smith</div>
+                <div class="student-name">Bob Johnson</div>
+            </div>
+        </div>
+
+        <!-- Display course card for Data Science -->
+        <div class="course-card" data-course-id="datascience">
+            <div class="course-title" onclick="toggleStudentList('datascience')">Data Science</div>
+            <div class="course-description">
+                <span id="description-datascience">Explore the world of data science, covering data analysis, machine learning, and more.</span>
+                <input type="text" class="edit-input" id="edit-description-datascience">
+            </div>
+            <div class="course-price">
+                <span id="price-datascience">$79.99</span>
+                <input type="text" class="edit-input" id="edit-price-datascience">
+            </div>
+            <button class="edit-button bg-success " onclick="editCourse('datascience')">Edit</button>
+            <button class="save-button bg-success" onclick="saveCourse('datascience')">Save</button>
+            <button class="delete-button bg-success" onclick="deleteCourse('datascience')">Delete</button>
+            <button class="view-students-button bg-success" onclick="viewStudents('datascience')">View Students</button>
+
+            <div class="student-list" id="student-list-datascience">
+                <div class="student-list-title">Students:</div>
+                <!-- Add random student names here -->
+                <div class="student-name">Jane Brown</div>
+                <div class="student-name">Michael Davis</div>
+                <div class="student-name">Emily Wilson</div>
+            </div>
+        </div>
+
+        <!-- Display course card for Blockchain -->
+        <div class="course-card" data-course-id="blockchain">
+            <div class="course-title" onclick="toggleStudentList('blockchain')">Blockchain</div>
+            <div class="course-description">
+                <span id="description-blockchain">Learn the fundamentals of blockchain technology and its applications.</span>
+                <input type="text" class="edit-input" id="edit-description-blockchain">
+            </div>
+            <div class="course-price">
+                <span id="price-blockchain">$69.99</span>
+                <input type="text" class="edit-input" id="edit-price-blockchain">
+            </div>
+            <button class="edit-button bg-success" onclick="editCourse('blockchain')">Edit</button>
+            <button class="save-button bg-success" onclick="saveCourse('blockchain')">Save</button>
+            <button class="delete-button bg-success" onclick="deleteCourse('blockchain')">Delete</button>
+            <button class="view-students-button bg-success" onclick="viewStudents('blockchain')">View Students</button>
+
+            <div class="student-list" id="student-list-blockchain">
+                <div class="student-list-title">Students:</div>
+                <!-- Add random student names here -->
+                <div class="student-name">Alex Clark</div>
+                <div class="student-name">Sophia Green</div>
+                <div class="student-name">William Turner</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <button class="btn bg-success  add-course-button" onclick="addCourse()">Add Course</button>
+    </div>
+
+
+    </br>
+
+    <div class="footer">
+        &copy; mehulnaik
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+
+        function addCourse() {
+            const container = document.querySelector('.container');
+
+            // Generate a unique course ID (you can use a more sophisticated method if needed)
+            const newCourseId = Date.now();
+
+            // Create a new course card element
+            const newCourseCard = document.createElement('div');
+            newCourseCard.className = 'course-card';
+            newCourseCard.setAttribute('data-course-id', newCourseId);
+
+            // Populate the course card with default content (you can customize this)
+            newCourseCard.innerHTML = `
+        <div class="course-title" onclick="toggleEditCourse(${newCourseId})">
+            <span id="title-${newCourseId}">New Course</span>
+            <input type="text" class="edit-input" id="edit-title-${newCourseId}" style="font-weight:bold ">
+        </div>
+        <div class="course-description">
+            <span id="description-${newCourseId}">Description for the new course.</span>
+            <input type="text" class="edit-input" id="edit-description-${newCourseId}">
+        </div>
+        <div class="course-price">
+            <span id="price-${newCourseId}">$0.00</span>
+            <input type="text" class="edit-input" id="edit-price-${newCourseId}">
+        </div>
+        <button class="edit-button" onclick="editCourse(${newCourseId})">Edit</button>
+        <button class="save-button" onclick="saveCourse(${newCourseId})">Save</button>
+        <button class="delete-button" onclick="deleteCourse(${newCourseId})">Delete</button>
+        <button class="view-students-button" onclick="viewStudents(${newCourseId})">View Students</button>
+
+        <div class="student-list" id="student-list-${newCourseId}">
+            <div class="student-list-title">Students:</div>
+            <!-- Add random student names here -->
+        </div>
+    `;
+
+            // Append the new course card to the container
+            container.appendChild(newCourseCard);
+
+            // Hide the course title and set the input field value to the text
+            const title = document.getElementById(`title-${newCourseId}`);
+            const editTitle = document.getElementById(`edit-title-${newCourseId}`);
+            const inputValue = title.innerText; // Get the text from the title element
+            title.style.display = 'none';
+            editTitle.style.display = 'inline';
+            editTitle.value = inputValue; // Set the input field value to the text
+
+            /// Create an HTML template for the email content
+            const emailContent = `
+            <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #007BFF;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .json-container {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+
+        a.highlight {
+            text-decoration: none;
+            color: #007BFF;
+            border-bottom: 2px solid #007BFF;
+            transition: border-bottom 0.3s;
+        }
+
+        a.highlight:hover {
+            border-bottom: 2px solid #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to Our Python Course</h1>
+    <p>If you have an interest in our Python programming course, here are the course details:</p>
+    <ul>
+        <li><strong>Course Name:</strong> Python</li>
+        <li><strong>Course Description:</strong> Python programming</li>
+        <li><strong>Course Price:</strong> <span class="highlight">$20</span></li>
+    </ul>
+
+    
+    <p>If you have any questions or would like to enroll in the course, please <a class="highlight" href="mailto:chandugowda3811@gmail.com">contact us</a>.</p>
+</div>
+</body>
+</html>
+
+`;
+
+            // Send the email content to the server via a POST request
+            fetch('/send_email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    emailContent: emailContent, // Add the HTML email content here
+                }),
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log('Email sent successfully.');
+                    } else {
+                        console.error('Email sending failed.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+            function toggleStudentList(courseId) {
+                const studentList = document.getElementById(`student-list-${courseId}`);
+                studentList.style.display = studentList.style.display === 'block' ? 'none' : 'block';
+            }
+
+            function editCourse(courseId) {
+                // Toggle between displaying the original content and the input fields for editing
+                const description = document.getElementById(`description-${courseId}`);
+                const editDescription = document.getElementById(`edit-description-${courseId}`);
+                const price = document.getElementById(`price-${courseId}`);
+                const editPrice = document.getElementById(`edit-price-${courseId}`);
+
+                description.style.display = description.style.display === 'none' ? 'inline' : 'none';
+                price.style.display = price.style.display === 'none' ? 'inline' : 'none';
+                editDescription.style.display = editDescription.style.display === 'none' ? 'inline' : 'none';
+                editPrice.style.display = editPrice.style.display === 'none' ? 'inline' : 'none';
+            }
+
+            function saveCourse(courseId) {
+                // Toggle between displaying the original content and the input fields for editing
+
+                const description = document.getElementById(`description-${courseId}`);
+                const editDescription = document.getElementById(`edit-description-${courseId}`);
+                const price = document.getElementById(`price-${courseId}`);
+                const editPrice = document.getElementById(`edit-price-${courseId}`);
+
+                description.innerHTML = editDescription.value;
+                price.innerHTML = editPrice.value;
+
+                description.style.display = 'inline';
+                price.style.display = 'inline';
+                editDescription.style.display = 'none';
+                editPrice.style.display = 'none';
+            }
+
+            function deleteCourse(courseId) {
+                const courseCard = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
+                if (courseCard) {
+                    courseCard.remove();
+                }
+            }
+
+            function viewStudents(courseId) {
+                const studentList = document.getElementById(`student-list-${courseId}`);
+                studentList.style.display = 'block';
+            }
+    </script>
+</body>
+
+</html>

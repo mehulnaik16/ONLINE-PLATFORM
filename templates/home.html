@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>signup</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Reset some default margin and padding */
+        body, h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+    
+        /* Set a background color for the entire page */
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+            font-family: Arial, sans-serif;
+        }
+    
+        /* Style the heading at the top */
+        .advanced-heading {
+            text-align: center;
+            background-color: #B15EFF; 
+            padding: 20px;
+            color: #fff; 
+        }
+    
+        /* Style the card container */
+        .container {
+            margin-top: 20px;
+        }
+    
+        /* Style the cards */
+        .card {
+            border: none;
+            border-radius: 15px;
+            background-color: #fff; /* White background for cards */
+            transition: transform 0.2s;
+            margin: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to cards */
+            transform: scale(1.01);
+        }
+    
+        .card:hover {
+            transform: scale(1.03);
+        }
+    
+        /* Style card images */
+        .card-img-top {
+            max-width: 100%;
+            height: auto;
+        }
+    
+        /* Style the card titles */
+        .card-title {
+            text-align: center;
+            font-size: 24px; /* Adjust the font size */
+        }
+    
+        /* Style the "Sign Up" button */
+        .btn-primary {
+            background-color: #0056b3; /* Blue button color */
+            color: #fff; /* White text color */
+            border: none;
+        }
+    
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    
+        /* Style the "Login" buttons */
+        .btn-success {
+            background-color: #28a745; /* Green button color */
+            color: #fff; /* White text color */
+            border: none;
+        }
+    
+        .btn-info {
+            background-color: #17a2b8; /* Turquoise button color */
+            color: #fff; /* White text color */
+            border: none;
+        }
+    
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+    
+        }   
+
+    </style>
+    
+</head>
+
+<body>
+    
+    <div class="">
+        <div class="advanced-heading">
+            <h2 class="text-center font-weight-bold" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Online Learning Platform</h2>
+        </div>
+    </div>
+    <div class="row mt-3 justify-content-center" style="margin-right: 0px;">
+        <div class="col-md-4">
+            <div class="card">
+                <a href="{{ url_for('teacher_login') }}" class="btn btn-white btn-block"><img src="  https://i.pinimg.com/1200x/a9/01/90/a90190c19c9ee63ec43abb53f096eab5.jpg" class="card-img-top mx-auto d-block" alt="Student Login" style="width: 300px; height: 200px;"></a>
+                <div class="card-body">
+                    <a href="{{ url_for('teacher_login') }}" class="btn btn-white btn-block"><h3 class="card-title text-center">Teacher Login</h3></a>
+                    
+                </div>
+            </div>
+        </div>
+      
+        <div class="col-md-4">
+            <div class="card">
+                <a href="{{ url_for('student_login') }}" class="btn btn-white btn-block"><img src="https://i.pinimg.com/736x/0e/a3/5c/0ea35c1fc91bfe6494cd0caed7ce9ffc.jpg" class="card-img-top mx-auto d-block" alt="Teacher Login" style="width: 300px; height: 200px;"></a>
+                <div class="card-body">
+                    <a href="{{ url_for('student_login') }}" class="btn btn-white btn-block"></a><h3 class="card-title text-center">Student Login</h3></a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center p-3 ">
+        <h4>New User?</h4>
+    </div>
+    <div class="d-flex justify-content-center p-0">
+        <a href="{{ url_for('signup') }}">
+            <button type="button" class="btn btn-outline-success">Sign Up</button>
+        </a>
+    </div>
+    
+    </div>
+
+    <footer class="fixed-bottom ">
+        &copy; mehulnaik
+    </footer>
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

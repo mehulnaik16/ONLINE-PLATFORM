@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AYOqp3mELxzbn4OXvEzqUmYPcfAIUHob_Ca9aB4n6yRhJQ-ZMzXtXRTbyAjLoiv2SkHeHwVjgX2mPjYF"></script>
+    <style>
+        /* Custom CSS for this page */
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            margin-top: 20px;
+        }
+
+        header {
+            background-color: #B15EFF;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .course-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .course-title {
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            /* Make the title clickable */
+        }
+
+        .course-description {
+            margin-top: 10px;
+        }
+
+        .course-price {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .subscribe-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .subscribe-button:hover {
+            background-color: #0056b3;
+        }
+
+        .student-courses {
+            display: none;
+        }
+
+        .student-course-title {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .student-course-link {
+            margin-top: 5px;
+        }
+
+        .search-bar {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Online Learning Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('subscribed') }}">Enrolled</a></li>
+                <li><a href="{{ url_for('home') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Add a search bar to search for courses -->
+        <input type="text" class="search-bar" placeholder="Search for courses..." oninput="searchCourses(this.value)">
+
+        <!-- Display available courses -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="course-card">
+                        <div class="course-title">Web Development</div>
+                        <div class="course-description">
+                            Learn the art of creating dynamic websites and web applications using popular technologies like
+                            HTML, CSS, JavaScript, and more. Get hands-on experience in building responsive and interactive
+                            web pages.
+                        </div>
+                        <button class="btn btn-success " onclick="initiatePayPalPayment(1, 'Web Development', 0.00)"
+                            >Enroll</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="course-card">
+                        <div class="course-title">Machine Learning</div>
+                        <div class="course-description">
+                            Dive into the world of machine learning and artificial intelligence. Explore algorithms, data
+                            analysis, and predictive modeling. Gain the skills to create intelligent systems and make data-driven
+                            decisions.
+                        </div>
+                        <button class="btn btn-success  " onclick="initiatePayPalPayment(2, 'Machine Learning', 0.00)"
+                            >Enroll</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="course-card">
+                        <div class="course-title">Digital Marketing</div>
+                        <div class="course-description">
+                            Master the art of online marketing. Learn about SEO, social media marketing, email campaigns, and
+                            more. Drive traffic and increase brand awareness in the digital space.make data-driven
+                            decisions.
+                        </div>
+                        <button class="btn btn-success  " onclick="initiatePayPalPayment(3, 'Digital Marketing', 0.00)"
+                            >Enroll</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add more courses as needed -->
+
+        <!-- Display Enrolld courses -->
+        <div class="student-courses" id="student-courses">
+            <div class="student-course-title">Enrolld Courses:</div>
+            <!-- Add Enrolld course links dynamically -->
+        </div>
+    </div>
+
+
+   
+    <div class="footer">
+        &copy; mehulnaik
+    </div>
+
+    <script>
+        // JavaScript code for the student dashboard
+        function toggleCourseInfo(courseId) {
+            const courseDescription = document.getElementById(`description-${courseId}`);
+            courseDescription.style.display = courseDescription.style.display === 'none' ? 'block' : 'none';
+        }
+
+
+        
+        function initiatePayPalPayment(courseId, courseName, price) {
+            paypal.Buttons({
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            description: courseName,
+                            amount: {
+                                value: price,
+                            },
+                        }],
+                    });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        // Payment successful; you can handle the subscription logic here
+                        alert('Payment completed for ' + courseName + '!'); // Replace with your logic
+                    });
+                },
+            }).render('#paypal-button-container');
+        }
+
+        function subscribeCourse(courseId) {
+            const courseCard = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
+            if (courseCard) {
+                courseCard.style.display = 'none';
+
+                // Add the subscribed course link to the student's list of courses
+                const subscribedCourses = document.getElementById('student-courses');
+                const courseTitle = document.querySelector(`.course-card[data-course-id="${courseId}"] .course-title`);
+                const courseLink = document.createElement('a');
+                courseLink.href = '#'; // Add the actual course link here
+                courseLink.textContent = courseTitle.textContent;
+                courseLink.className = 'student-course-link';
+                subscribedCourses.appendChild(courseLink);
+            }
+        }
+
+        function searchCourses(query) {
+            const courseCards = document.querySelectorAll('.course-card');
+            for (const card of courseCards) {
+                const courseTitle = card.querySelector('.course-title');
+                if (courseTitle.textContent.toLowerCase().includes(query.toLowerCase())) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        }
+
+
+
+
+        function startNpm() {
+            window.location.href = "http://localhost:8888";
+            fetch('/start-npm', { method: 'GET' })
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log('npm start initiated.');
+                        // Only change the window location if npm start was successful.
+
+
+
+
+                    } else {
+                        console.error('Failed to initiate npm start.');
+                    }
+                });
+        }
+
+
+
+
+        function redirectToPayPal() {
+            // Construct the URL with query parameters
+            const url = `/http://localhost:8888/`;
+
+            // Redirect the user to the PayPal integration folder
+            window.location.href = url;
+        }
+        n
+
+    </script>
+</body>
+
+</html>
